@@ -6,4 +6,5 @@
 
 <suppressions>
     <suppress checks="HideUtilityClassConstructor" files=".*Application.java"/>
+    <suppress checks="MissingCtor" files="[A-Z][a-zA-Z0-9]+(Application|Config).java"/>
 </suppressions>

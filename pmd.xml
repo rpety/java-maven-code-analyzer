@@ -56,7 +56,7 @@
     <rule ref="category/java/codestyle.xml/CallSuperInConstructor"/>
     <rule ref="category/java/codestyle.xml/ClassNamingConventions">
         <properties>
-            <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Utils?|Helper|Constants|Application)" />
+            <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Application|Config)" />
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/ControlStatementBraces"/>
