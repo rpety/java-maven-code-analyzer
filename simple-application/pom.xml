@@ -3,13 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.example.code-analyzer</groupId>
+        <groupId>org.example.code-check</groupId>
         <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
-    <artifactId>project-to-analyze</artifactId>
-    <name>Static code rules - Project to analyze</name>
+    <artifactId>simple-application</artifactId>
+    <name>Simple application</name>
 
     <properties>
         <java.version>1.8</java.version>
