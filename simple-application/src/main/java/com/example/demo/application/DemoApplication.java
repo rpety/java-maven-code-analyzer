@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.application;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;

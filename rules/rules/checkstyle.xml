@@ -6,9 +6,9 @@
     <property name="charset" value="UTF-8"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <property name="severity" value="error"/>
-
+<!-- ${pv.antrun} -->
     <module name="SuppressionFilter">
-        <property name="file" value="${checkstyle.suppressions.file}"/>
+        <property name="file" value="${checkstyle.suppressions}"/>
         <property name="optional" value="false"/>
     </module>
 
@@ -81,7 +81,7 @@
         <module name="UnnecessarySemicolonInTryWithResources"/>
         <module name="AvoidStarImport"/>
         <module name="ImportControl">
-            <property name="file" value="${cs.import-control}"/>
+            <property name="file" value="${checkstyle.import-control}"/>
         </module>
     </module>
 </module>

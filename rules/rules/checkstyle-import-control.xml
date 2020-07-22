@@ -4,6 +4,48 @@
         "-//Checkstyle//DTD ImportControl Configuration 1.4//EN"
         "https://checkstyle.org/dtds/import_control_1_4.dtd">
 
-<import-control pkg="com.example.demo" strategyOnMismatch="disallowed">
+<import-control pkg="${checkstyle.import-control.package-root}" strategyOnMismatch="disallowed">
+    <allow pkg="edu.umd.cs.findbugs.annotations"/>
+    <allow pkg="org.slf4j"/>
 
+    <subpackage name="api">
+        <subpackage name="interfaces">
+
+        </subpackage>
+        <subpackage name="application">
+
+        </subpackage>
+        <subpackage name="domain.service">
+
+        </subpackage>
+    </subpackage>
+    <subpackage name="config">
+        <allow pkg="${checkstyle.import-control.package-root}.api"/>
+        <allow pkg="${checkstyle.import-control.package-root}.infrastructure"/>
+
+        <allow pkg="org.springframework"/>
+    </subpackage>
+    <subpackage name="infrastructure">
+        <subpackage name="interfaces">
+            <allow pkg="${checkstyle.import-control.package-root}.api.interfaces"/>
+            <allow pkg="${checkstyle.import-control.package-root}.api.application"/>
+
+            <subpackage name="rest">
+                <allow pkg="org.springframework.web"/>
+                <allow pkg="org.springframework.http"/>
+                <allow pkg="org.springframework.stereotype"/>
+                <allow class="org.springframework.beans.factory.annotation.Autowired"/>
+            </subpackage>
+        </subpackage>
+        <subpackage name="application">
+            <allow pkg="${checkstyle.import-control.package-root}.api.application"/>
+        </subpackage>
+        <subpackage name="domain.service">
+
+        </subpackage>
+    </subpackage>
+    <subpackage name="application">
+        <allow pkg="org.springframework.boot"/>
+        <allow pkg="${checkstyle.import-control.package-root}.config"/>
+    </subpackage>
 </import-control>

@@ -6,11 +6,175 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Static code rules - Parent</name>
-    
+
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <pv.dependency>3.1.2</pv.dependency>
+        <pv.pmd>3.13.0</pv.pmd>
+        <pv.checkstyle>3.1.1</pv.checkstyle>
+        <pv.antrun>3.0.0</pv.antrun>
+
+        <rules.target.dir>${project.build.directory}/rules</rules.target.dir>
+
+        <spotbug.version>4.0.4</spotbug.version>
+
+        <pmd.version>6.25.0</pmd.version>
+        <pmd.rule-set>${rules.target.dir}/pmd.xml</pmd.rule-set>
+
+        <checkstyle.version>8.34</checkstyle.version>
+        <checkstyle.rules>${rules.target.dir}/checkstyle.xml</checkstyle.rules>
+        <checkstyle.suppressions>${rules.target.dir}/checkstyle-suppression.xml</checkstyle.suppressions>
+        <checkstyle.import-control>${rules.target.dir}/checkstyle-import-control.xml</checkstyle.import-control>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${spotbug.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${pv.dependency}</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.example.code-check</groupId>
+                                    <artifactId>rules</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${rules.target.dir}</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${pv.antrun}</version>
+                <executions>
+                    <execution>
+                        <id>templating-rules</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.directory}/rules-tmp">
+                                    <fileset dir="${rules.target.dir}"/>
+                                    <filterset begintoken="${" endtoken="}">
+                                        <filter token="checkstyle.import-control" value="${checkstyle.import-control}"/>
+                                        <filter token="checkstyle.suppressions" value="${checkstyle.suppressions}"/>
+                                        <filter token="checkstyle.import-control.package-root" value="${checkstyle.import-control.package-root}"/>
+                                    </filterset>
+                                </copy>
+                                <copy todir="${rules.target.dir}">
+                                    <fileset dir="${project.build.directory}/rules-tmp"/>
+                                </copy>
+                                <delete dir="${project.build.directory}/rules-tmp"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbug.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pv.pmd}</version>
+                <configuration>
+                    <failOnViolation>true</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                    <includeTests>true</includeTests>
+                    <showPmdLog>true</showPmdLog>
+                    <rulesets>
+                        <ruleset>${pmd.rule-set}</ruleset>
+                    </rulesets>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-core</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-java</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-javascript</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-jsp</artifactId>
+                        <version>${pmd.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${pv.checkstyle}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <configLocation>${checkstyle.rules}</configLocation>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.infrastructure.interfaces.rest;
 
+import com.example.demo.api.application.SomeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
