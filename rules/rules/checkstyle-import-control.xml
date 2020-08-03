@@ -7,24 +7,30 @@
 <import-control pkg="${checkstyle.import-control.package-root}" strategyOnMismatch="disallowed">
     <allow pkg="edu.umd.cs.findbugs.annotations"/>
     <allow pkg="org.slf4j"/>
+    <allow pkg="com.google.common"/>
+    <allow pkg="java.util"/>
+    <allow pkg="java.math"/>
+    <allow pkg="java.time"/>
 
     <subpackage name="api">
         <subpackage name="interfaces">
-
+            <allow pkg="${checkstyle.import-control.package-root}.api.application"/>
         </subpackage>
         <subpackage name="application">
-
+            <allow pkg="${checkstyle.import-control.package-root}.api.domain.service"/>
         </subpackage>
         <subpackage name="domain.service">
 
         </subpackage>
     </subpackage>
+
     <subpackage name="config">
         <allow pkg="${checkstyle.import-control.package-root}.api"/>
         <allow pkg="${checkstyle.import-control.package-root}.infrastructure"/>
 
         <allow pkg="org.springframework"/>
     </subpackage>
+
     <subpackage name="infrastructure">
         <subpackage name="interfaces">
             <allow pkg="${checkstyle.import-control.package-root}.api.interfaces"/>
@@ -39,11 +45,13 @@
         </subpackage>
         <subpackage name="application">
             <allow pkg="${checkstyle.import-control.package-root}.api.application"/>
+            <allow pkg="${checkstyle.import-control.package-root}.api.domain.service"/>
         </subpackage>
         <subpackage name="domain.service">
-
+            <allow pkg="${checkstyle.import-control.package-root}.api.domain.service"/>
         </subpackage>
     </subpackage>
+
     <subpackage name="application">
         <allow pkg="org.springframework.boot"/>
         <allow pkg="${checkstyle.import-control.package-root}.config"/>
