@@ -17,7 +17,7 @@
 
         <spotbug.version>4.0.4</spotbug.version>
 
-        <pmdVersion>6.25.0</pmdVersion>
+        <pmdVersion>7.10.0</pmdVersion>
     </properties>
 
     <dependencyManagement>
